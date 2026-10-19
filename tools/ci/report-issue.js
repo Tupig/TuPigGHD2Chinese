@@ -14,6 +14,16 @@ function extractFailedCount(report) {
   return { failed: '?', source: 'none' };
 }
 
+// 未翻译候选数解析：结构性 meta 优先，兼容旧报告的中文统计行。
+// 统计缺失返回 '?'，与失效数一致，保持“数据不完整时不自动关单”的保守策略。
+function extractCandidateCount(report) {
+  const meta = report.match(/<!--\s*candidates:\s*count=(\d+)\s*-->/);
+  if (meta) return { candidates: meta[1], source: 'meta' };
+  const legacy = report.match(/发现\s+(\d+)\s+条未被覆盖的英文文案候选/);
+  if (legacy) return { candidates: legacy[1], source: 'legacy-text' };
+  return { candidates: '?', source: 'none' };
+}
+
 module.exports = async ({ github, context, core }) => {
   try {
     const fs = require('fs');
@@ -21,14 +31,17 @@ module.exports = async ({ github, context, core }) => {
     const reportPath = path.join(process.env.RUNNER_TEMP, 'ghdesktop-auto-maintain', 'report.md');
     const report = fs.readFileSync(reportPath, 'utf8');
 
-    const { failed, source } = extractFailedCount(report);
-    if (source === 'none') {
+    const failedInfo = extractFailedCount(report);
+    const candidateInfo = extractCandidateCount(report);
+    if (failedInfo.source === 'none' || candidateInfo.source === 'none') {
       // 解析失败若静默降级, 自动关单/标题计数会永久失效且无告警, 故显式 warning
-      core.warning('report.md 中未找到 stats meta 行或中文统计行, 失效数按 ? 处理, 请检查 report.js 是否变更输出格式');
+      core.warning('report.md 中未找到完整的 stats/candidates meta 行或中文统计行, 失效数/候选数按 ? 处理, 请检查 report.js 是否变更输出格式');
     }
-    const noFailures = Number(failed) === 0;
+    // 未翻译候选本身也是需要维护者处理的工作项:
+    // 即使失效项为 0，只要有候选，就必须创建/更新 Issue；仅两者都为 0 才允许自动关单。
+    const allClear = Number(failedInfo.failed) === 0 && Number(candidateInfo.candidates) === 0;
 
-    const title = `[自动维护] 汉化映射失效 ${failed} 项 / 未翻译候选 (GitHub Desktop 报告)`;
+    const title = `[自动维护] 汉化映射失效 ${failedInfo.failed} 项 / 未翻译候选 ${candidateInfo.candidates} 条 (GitHub Desktop 报告)`;
     const today = new Date().toISOString().slice(0, 10);
     const body = [
       `## 自动维护报告（${today}）`,
@@ -68,7 +81,7 @@ module.exports = async ({ github, context, core }) => {
 
     const existing = issues.find(i => i.title.startsWith('[自动维护]'));
 
-    if (noFailures) {
+    if (allClear) {
       if (existing) {
         await github.rest.issues.update({
           owner: context.repo.owner,
@@ -78,9 +91,9 @@ module.exports = async ({ github, context, core }) => {
           title: title + '（已恢复）', // #230: 关单同步标题, 避免历史标题永久保留过期失效计数
           body: finalBody,
         });
-        console.log(`已关闭 Issue #${existing.number}（无失效项）`);
+        console.log(`已关闭 Issue #${existing.number}（无失效项且无未翻译候选）`);
       } else {
-        console.log('无失效项且无历史 Issue，无需操作');
+        console.log('无失效项且无未翻译候选，无需操作');
       }
       return;
     }
@@ -111,3 +124,4 @@ module.exports = async ({ github, context, core }) => {
 
 // #137: 纯函数单独导出供 tools/auto-maintain/test/tools-self-test.test.mjs 跨文件契约回归
 module.exports.extractFailedCount = extractFailedCount;
+module.exports.extractCandidateCount = extractCandidateCount;

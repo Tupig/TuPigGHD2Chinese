@@ -108,6 +108,7 @@ describe('renderMarkdown：未翻译候选段', () => {
     }));
     expect(md).toContain('## 未翻译候选');
     expect(md).toContain('基于 12 条映射正则，发现 1 条未被覆盖的英文文案候选。');
+    expect(md).toContain('<!-- candidates: count=1 -->');
     expect(md).toContain('| main.js, renderer.js | 3 | New Alpha |');
     expect(md).toContain('【待翻译】');
   });

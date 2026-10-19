@@ -62,8 +62,10 @@ function makeCore() {
   return { setFailed: vi.fn(), warning: vi.fn() };
 }
 
-const META_REPORT = '## 自动维护报告\n\n总映射项 1119，有效 1117，失效 2。\n<!-- stats: total=1119 ok=1117 failed=2 -->\n';
-const HEALTHY_REPORT = '## 自动维护报告\n\n总映射项 1119，有效 1119，失效 0。\n<!-- stats: total=1119 ok=1119 failed=0 -->\n';
+const META_REPORT = '## 自动维护报告\n\n总映射项 1119，有效 1117，失效 2。\n<!-- stats: total=1119 ok=1117 failed=2 -->\n<!-- candidates: count=3 -->\n';
+const HEALTHY_REPORT = '## 自动维护报告\n\n总映射项 1119，有效 1119，失效 0。\n<!-- stats: total=1119 ok=1119 failed=0 -->\n<!-- candidates: count=0 -->\n';
+const CANDIDATES_ONLY_REPORT = '## 自动维护报告\n\n总映射项 1119，有效 1119，失效 0。\n<!-- stats: total=1119 ok=1119 failed=0 -->\n<!-- candidates: count=2 -->\n';
+const FAILURES_ONLY_REPORT = '## 自动维护报告\n\n总映射项 1119，有效 1117，失效 2。\n<!-- stats: total=1119 ok=1117 failed=2 -->\n<!-- candidates: count=0 -->\n';
 
 describe('report-issue.js：自动维护报告单', () => {
   it('有失效且无历史单 → 创建（标题含失效数 / label auto-maintain）', async () => {
@@ -77,7 +79,7 @@ describe('report-issue.js：自动维护报告单', () => {
     expect(update).not.toHaveBeenCalled();
     expect(create).toHaveBeenCalledTimes(1);
     const arg = create.mock.calls[0][0];
-    expect(arg.title).toBe('[自动维护] 汉化映射失效 2 项 / 未翻译候选 (GitHub Desktop 报告)');
+    expect(arg.title).toBe('[自动维护] 汉化映射失效 2 项 / 未翻译候选 3 条 (GitHub Desktop 报告)');
     expect(arg.labels).toEqual(['auto-maintain']);
     expect(arg.body).toContain('<!-- stats: total=1119 ok=1117 failed=2 -->');
     expect(core.setFailed).not.toHaveBeenCalled();
@@ -93,8 +95,46 @@ describe('report-issue.js：自动维护报告单', () => {
     expect(update).toHaveBeenCalledTimes(1);
     const arg = update.mock.calls[0][0];
     expect(arg.issue_number).toBe(7);
-    expect(arg.title).toBe('[自动维护] 汉化映射失效 2 项 / 未翻译候选 (GitHub Desktop 报告)');
+    expect(arg.title).toBe('[自动维护] 汉化映射失效 2 项 / 未翻译候选 3 条 (GitHub Desktop 报告)');
     expect(arg.state).toBeUndefined();
+  });
+
+  it('有失效但无未翻译候选 → 仍创建', async () => {
+    writeReport(FAILURES_ONLY_REPORT);
+    const { github, create, update } = makeGithub({ issues: [] });
+
+    await reportIssue({ github, context: makeCtx(), core: makeCore() });
+
+    expect(update).not.toHaveBeenCalled();
+    expect(create).toHaveBeenCalledTimes(1);
+    expect(create.mock.calls[0][0].title).toBe('[自动维护] 汉化映射失效 2 项 / 未翻译候选 0 条 (GitHub Desktop 报告)');
+  });
+
+  it('无失效但有未翻译候选且无历史单 → 创建', async () => {
+    writeReport(CANDIDATES_ONLY_REPORT);
+    const { github, create, update } = makeGithub({ issues: [] });
+
+    await reportIssue({ github, context: makeCtx(), core: makeCore() });
+
+    expect(update).not.toHaveBeenCalled();
+    expect(create).toHaveBeenCalledTimes(1);
+    const arg = create.mock.calls[0][0];
+    expect(arg.title).toBe('[自动维护] 汉化映射失效 0 项 / 未翻译候选 2 条 (GitHub Desktop 报告)');
+    expect(arg.body).toContain('<!-- candidates: count=2 -->');
+  });
+
+  it('无失效但有未翻译候选且有历史单 → 更新不关单', async () => {
+    writeReport(CANDIDATES_ONLY_REPORT);
+    const { github, create, update } = makeGithub({ issues: [{ number: 13, title: '[自动维护] 汉化映射失效 0 项 / 未翻译候选 9 条 (GitHub Desktop 报告)' }] });
+
+    await reportIssue({ github, context: makeCtx(), core: makeCore() });
+
+    expect(create).not.toHaveBeenCalled();
+    expect(update).toHaveBeenCalledTimes(1);
+    const arg = update.mock.calls[0][0];
+    expect(arg.issue_number).toBe(13);
+    expect(arg.state).toBeUndefined();
+    expect(arg.title).toBe('[自动维护] 汉化映射失效 0 项 / 未翻译候选 2 条 (GitHub Desktop 报告)');
   });
 
   it('无失效且有历史单 → 关闭并同步标题（已恢复）', async () => {
