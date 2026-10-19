@@ -137,6 +137,26 @@ describe('report-issue.js：自动维护报告单', () => {
     expect(arg.title).toBe('[自动维护] 汉化映射失效 0 项 / 未翻译候选 2 条 (GitHub Desktop 报告)');
   });
 
+  it('存在多个同类 open Issue → 只更新最早主单并关闭重复单', async () => {
+    writeReport(CANDIDATES_ONLY_REPORT);
+    const { github, create, update } = makeGithub({
+      issues: [
+        { number: 20, title: '[自动维护] 汉化映射失效 0 项 / 未翻译候选 9 条 (GitHub Desktop 报告)' },
+        { number: 21, title: '[自动维护] 汉化映射失效 0 项 / 未翻译候选 8 条 (GitHub Desktop 报告)' },
+      ],
+    });
+
+    await reportIssue({ github, context: makeCtx(), core: makeCore() });
+
+    expect(create).not.toHaveBeenCalled();
+    expect(update).toHaveBeenCalledTimes(2);
+    const byNumber = new Map(update.mock.calls.map(([arg]) => [arg.issue_number, arg]));
+    expect(byNumber.get(20).state).toBeUndefined();
+    expect(byNumber.get(20).title).toBe('[自动维护] 汉化映射失效 0 项 / 未翻译候选 2 条 (GitHub Desktop 报告)');
+    expect(byNumber.get(21).state).toBe('closed');
+    expect(byNumber.get(21).title).toContain('（已合并）');
+  });
+
   it('无失效且有历史单 → 关闭并同步标题（已恢复）', async () => {
     writeReport(HEALTHY_REPORT);
     const { github, create, update } = makeGithub({ issues: [{ number: 9, title: '[自动维护] 汉化映射失效 4 项 / 未翻译候选 (GitHub Desktop 报告)' }] });
