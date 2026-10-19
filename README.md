@@ -115,6 +115,9 @@ TuPigGHD2Chinese.exe dev --translationfrombak
 TuPigGHD2Chinese.exe --rollback
 ```
 
+> [!NOTE]
+> 若 `main.js` / `renderer.js` 已是汉化内容且未指定 `--translationfrombak`，程序会明确提示并中止，避免对中文文件重复套用英文映射（日志显示 0 命中）。请按提示改用 `--translationfrombak` 或先 `--rollback`。
+
 > [!TIP]
 > 查看内置帮助：`TuPigGHD2Chinese.exe --help`。完整参数说明（含开发者菜单、退出码、错误检查模式详解）见 [📖 Wiki：命令行参数](docs/wiki/命令行参数.md)。
 
@@ -441,6 +444,9 @@ TuPigGHD2Chinese.exe dev --translationfrombak
 # Undo the localization and restore the original state
 TuPigGHD2Chinese.exe --rollback
 ```
+
+> [!NOTE]
+> If `main.js` / `renderer.js` already contain localized Chinese and `--translationfrombak` was not specified, the program now warns and aborts instead of silently producing 0 matches. Use `--translationfrombak`, or run `--rollback` first.
 
 > [!TIP]
 > Built-in help: `TuPigGHD2Chinese.exe --help`. For the full reference (developer menu, exit codes, error-check mode details) see [📖 Wiki: Command-line Arguments](docs/wiki/命令行参数.md).

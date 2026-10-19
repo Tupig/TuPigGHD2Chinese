@@ -3,6 +3,7 @@
 // 构建: cmake --build . --target utils_test;  运行: ctest
 #include "utils/encoding.hpp"
 #include "utils/fs_io.hpp"
+#include "utils/localization_state.hpp"
 
 #include <gtest/gtest.h>
 
@@ -201,4 +202,24 @@ TEST(FsIo, AtomicCopyFileMissingSourceFails) {
     EXPECT_FALSE(utils::AtomicCopyFile(dir.path() / "missing.txt", dst, ec));
     EXPECT_TRUE(static_cast<bool>(ec));
     EXPECT_FALSE(fs::exists(dst));
+}
+
+// ── 已汉化检测(localization_state.hpp) ──
+TEST(LocalizationState, EnglishTextIsNotLocalized) {
+    EXPECT_EQ(utils::CountCjkChars("Hello world"), 0u);
+    EXPECT_FALSE(utils::LooksAlreadyLocalized("Hello world"));
+}
+
+TEST(LocalizationState, CountsUtf8Cjk) {
+    EXPECT_EQ(utils::CountCjkChars("汉化映射"), 4u);
+    EXPECT_EQ(utils::CountCjkChars("a汉b化c"), 2u);
+}
+
+TEST(LocalizationState, ThresholdBoundary) {
+    EXPECT_FALSE(utils::LooksAlreadyLocalized("汉化映射"));          // 4 < 10
+    EXPECT_TRUE(utils::LooksAlreadyLocalized("汉化映射文件内容测试")); // 10
+}
+
+TEST(LocalizationState, MixedTextWithEnoughCjkIsLocalized) {
+    EXPECT_TRUE(utils::LooksAlreadyLocalized("main.js 汉化映射文件内容测试 renderer.js"));
 }
