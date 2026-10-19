@@ -8,7 +8,7 @@ import os from 'node:os';
 import nodePath from 'node:path';
 import { createRequire } from 'node:module';
 
-import { isLikelyUiText, buildDraftLine } from '../src/extract-new.js';
+import { isLikelyUiText, buildDraftLine, extractNew, isIgnoredName } from '../src/extract-new.js';
 // #146: 引用被测模块导出常量, 不在断言里重复绑定实现数值/字符串字面量
 import { renderMarkdown, MAX_FAILED_ROWS } from '../src/report.js';
 import { checkEntry, WARN_REASON_REDOS_SUSPECT } from '../src/check-invalid.js';
@@ -36,6 +36,21 @@ describe('extract-new: 提取过滤（isLikelyUiText）', () => {
   ];
   it.each(cases)('isLikelyUiText(%j) === %s', (text, expected) => {
     expect(isLikelyUiText(text)).toBe(expected);
+  });
+});
+
+describe('extract-new: 专有名词屏蔽（ignore-names.json）', () => {
+  it('大小写与首尾空白不敏感', () => {
+    expect(isIgnoredName('GitHub Desktop')).toBe(true);
+    expect(isIgnoredName('  git bash ')).toBe(true);
+    expect(isIgnoredName('POWERSHELL CORE')).toBe(true);
+    expect(isIgnoredName('Commit anyway')).toBe(false);
+  });
+
+  it('ignore 名称不进入候选，真实 UI 文案保留', () => {
+    const js = '"GitHub Desktop" "PowerShell Core" "Android Studio" "Commit anyway"';
+    const result = extractNew({ main: [], renderer: [] }, js, '');
+    expect(result.candidates.map((c) => c.text)).toEqual(['Commit anyway']);
   });
 });
 

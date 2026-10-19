@@ -101,7 +101,8 @@ npm test
 4. 剩余候选按出现次数排序输出，并标注来源文件（`main.js` / `renderer.js`）
 5. 报告中为每个候选生成 JSON 草稿（查找项按字面量转义），人工将 `【待翻译】` 替换为译文后加入对应数组
 
-> 提取是启发式的，会包含少量噪音（如库内部提示语）。候选用于辅助维护，不代表一定需要翻译（专有名词可跳过）。
+> 提取是启发式的，会包含少量噪音（如库内部提示语）。候选用于辅助维护，不代表一定需要翻译。
+> 无需翻译的专有名词/产品名可维护在 `ignore-names.json`（整条、大小写不敏感匹配），命中的名称不会进入候选列表。
 
 ## CI 自动维护
 
@@ -109,6 +110,7 @@ npm test
 
 - **触发**：push `main` + 每日定时（北京时间 10:00）+ 手动 `workflow_dispatch` 选择 `type=auto` 或 `type=maintain`
 - **流程**：查询最新版本 → 恢复缓存（安装包 + 提取结果）→ 跑 `check extract` → 生成报告 → 失效项或未翻译候选任一 > 0 时创建/更新 `auto-maintain` 标签的 Issue
+- **Issue 去重**：始终复用最早的 open 自动维护 Issue；若存在多个同类 open Issue，其余自动关闭并标注“已合并”
 - **自动关 Issue**：仅当失效项与未翻译候选都为 0 时，自动关闭历史维护 Issue
 - **不自动合并**：所有映射改动仍需人工确认，避免破坏 GitHub Desktop
 
@@ -237,7 +239,8 @@ Replays the C++ loader's full **in-order application** (`ProcessJsFile` + `Apply
 4. Remaining candidates are sorted by occurrence count and annotated with their source file (`main.js` / `renderer.js`)
 5. The report generates a JSON draft for each candidate (search terms escaped as literals); a human replaces `【待翻译】` with the translation and adds it to the corresponding array
 
-> Extraction is heuristic and includes some noise (e.g. internal library hints). Candidates assist maintenance and do not necessarily need translating (proper nouns can be skipped).
+> Extraction is heuristic and includes some noise (e.g. internal library hints). Candidates assist maintenance and do not necessarily need translating.
+> Proper nouns/product names that should stay untranslated can be listed in `ignore-names.json` (whole-string, case-insensitive); matching names never enter the candidate list.
 
 ## CI Automated Maintenance
 
@@ -245,6 +248,7 @@ The workflow lives at `../../.github/workflows/tupigghd2chinese.yml` (repository
 
 - **Triggers**: push to `main` + daily schedule (10:00 Beijing time) + manual `workflow_dispatch` with `type=auto` or `type=maintain`
 - **Flow**: query the latest version → restore caches (installer + extraction results) → run `check extract` → generate the report → create/update the `auto-maintain` labeled issue when stale entries or untranslated candidates are greater than 0
+- **Issue dedup**: always reuse the oldest open auto-maintenance Issue; if multiple matching open Issues exist, close the extras and mark them “merged”
 - **Auto-closing issues**: historical maintenance issues are closed automatically only when both stale entries and untranslated candidates drop to 0
 - **Never auto-merges**: all mapping changes still require manual confirmation, to avoid breaking GitHub Desktop
 

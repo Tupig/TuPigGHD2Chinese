@@ -8,9 +8,23 @@
  *  4. 对剩余候选去重、按出现频率排序输出
  */
 
+import { readFileSync } from 'node:fs';
+
 // 可翻译 UI 文案的长度过滤阈值: 过短多为残留噪音, 过长多为许可/法律整段文本
 const MIN_UI_TEXT_LEN = 4;
 const MAX_UI_TEXT_LEN = 160;
+
+// 无需翻译的专有名词/产品名（整条、大小写不敏感匹配）。
+// 列表维护在 ignore-names.json，便于不写代码即可增删。
+const IGNORE_NAMES = new Set(
+  JSON.parse(readFileSync(new URL('../ignore-names.json', import.meta.url), 'utf8'))
+    .map((name) => String(name).trim().toLowerCase())
+    .filter(Boolean),
+);
+
+export function isIgnoredName(s) {
+  return typeof s === 'string' && IGNORE_NAMES.has(s.trim().toLowerCase());
+}
 
 /**
  * 判断字符串是否像一条可翻译的英文 UI 文案。
@@ -192,6 +206,7 @@ export function extractNew(localization, mainJsText, rendererJsText) {
 
   const candidates = [];
   for (const [text, stat] of statsMap) {
+    if (isIgnoredName(text)) continue;
     if (isCoveredByPatterns(text, patterns)) continue;
     candidates.push({ text, count: stat.count, files: [...stat.files] });
   }

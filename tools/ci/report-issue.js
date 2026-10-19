@@ -79,7 +79,24 @@ module.exports = async ({ github, context, core }) => {
       per_page: 100,
     });
 
-    const existing = issues.find(i => i.title.startsWith('[自动维护]'));
+    // 同类 Issue 去重: 选取最早的主单更新, 其余历史重复单关闭,
+    // 避免“每次运行都新建一单”或历史 bug 留下的多单长期并存。
+    const matches = issues
+      .filter(i => i.title.startsWith('[自动维护]'))
+      .sort((a, b) => a.number - b.number);
+    const existing = matches[0];
+    const duplicates = matches.slice(1);
+    for (const dup of duplicates) {
+      const mergedTitle = dup.title.endsWith('（已合并）') ? dup.title : `${dup.title}（已合并）`;
+      await github.rest.issues.update({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: dup.number,
+        state: 'closed',
+        title: mergedTitle,
+      });
+      console.log(`已关闭重复 Issue #${dup.number}`);
+    }
 
     if (allClear) {
       if (existing) {
