@@ -1,0 +1,29 @@
+# Project-local RTK filters.
+# Trusted with `rtk trust`; see https://github.com/rtk-ai/rtk#custom-filters
+schema_version = 1
+
+[filters.cmake]
+description = "Compact CMake configure/build output: drop per-target progress noise, keep errors and warnings."
+match_command = "^cmake\\b"
+strip_ansi = true
+strip_lines_matching = [
+  "^\\[\\s*[0-9]+%\\] (Building|Linking|Copying|Generating|Automatic|Scanning)",
+  "^\\s*Building Custom Rule ",
+  "^\\s*Checking Build System",
+  "^\\s*[A-Za-z0-9_.-]+\\.vcxproj -> .*\\.(exe|dll|lib)$",
+  "^\\s*[A-Za-z0-9_.-]+\\.cpp$",
+  "^适用于 \\.NET Framework MSBuild 版本",
+  "^\\s*$",
+]
+max_lines = 80
+on_empty = "cmake: ok"
+
+[[tests.cmake]]
+name = "drops Makefile progress, keeps errors and completion"
+input = "[ 10%] Building CXX object CMakeFiles/app.dir/main.cpp.obj\nCMake Error at CMakeLists.txt:12 (add_executable):\n  Cannot find source file: missing.cpp\n[100%] Built target app"
+expected = "CMake Error at CMakeLists.txt:12 (add_executable):\n  Cannot find source file: missing.cpp\n[100%] Built target app"
+
+[[tests.cmake]]
+name = "drops MSBuild progress, keeps warnings and errors"
+input = "适用于 .NET Framework MSBuild 版本 18.10.1\n  Building Custom Rule C:/x/CMakeLists.txt\n  main.cpp\n  app1.vcxproj -> C:/x/app1.exe\nC:/x/main.cpp(1,1): error C2065: 'x': undeclared identifier"
+expected = "C:/x/main.cpp(1,1): error C2065: 'x': undeclared identifier"
