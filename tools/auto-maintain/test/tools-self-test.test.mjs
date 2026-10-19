@@ -22,7 +22,7 @@ import { parseArgs } from '../src/args.js';
 
 // #137: renderMarkdown 真实输出喂 report-issue.js 解析——跨文件文本契约回归
 const requireCjs = createRequire(import.meta.url);
-const { extractFailedCount } = requireCjs('../../ci/report-issue.js');
+const { extractFailedCount, extractCandidateCount } = requireCjs('../../ci/report-issue.js');
 
 describe('extract-new: 提取过滤（isLikelyUiText）', () => {
   const cases = [
@@ -127,6 +127,41 @@ describe('report-issue: 报告文本契约（extractFailedCount）', () => {
     const parsed = extractFailedCount('no stats at all');
     expect(parsed.failed).toBe('?');
     expect(Number(parsed.failed)).not.toBe(0);
+  });
+});
+
+describe('report-issue: 未翻译候选计数契约（extractCandidateCount）', () => {
+  const candidateReport = renderMarkdown({
+    version: 't', generatedAt: 't',
+    checks: { total: 10, ok: 10, failedCount: 0, failed: [] },
+    candidates: {
+      candidates: [{ text: 'New Alpha', count: 3, files: ['main.js'] }],
+      patternsCount: 12,
+    },
+  });
+
+  it('meta 行解析', () => {
+    expect(extractCandidateCount(candidateReport)).toEqual({ candidates: '1', source: 'meta' });
+  });
+
+  it('旧格式（无 meta 行）后备中文文案解析仍工作', () => {
+    const legacyOnly = candidateReport.replace(/<!-- candidates: count=1 -->\n/, '');
+    expect(extractCandidateCount(legacyOnly)).toEqual({ candidates: '1', source: 'legacy-text' });
+  });
+
+  it('零候选: 明确 0，允许自动关单', () => {
+    const zeroReport = renderMarkdown({
+      version: 't', generatedAt: 't',
+      checks: { total: 10, ok: 10, failedCount: 0, failed: [] },
+      candidates: { candidates: [], patternsCount: 12 },
+    });
+    expect(extractCandidateCount(zeroReport)).toEqual({ candidates: '0', source: 'meta' });
+  });
+
+  it('完全无候选信息: ? 且不误判为无候选', () => {
+    const parsed = extractCandidateCount('no candidates at all');
+    expect(parsed.candidates).toBe('?');
+    expect(Number(parsed.candidates)).not.toBe(0);
   });
 });
 

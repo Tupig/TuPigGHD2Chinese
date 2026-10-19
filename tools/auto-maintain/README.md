@@ -108,8 +108,8 @@ npm test
 工作流位于 `../../.github/workflows/tupigghd2chinese.yml`（仓库根目录）：
 
 - **触发**：push `main` + 每日定时（北京时间 10:00）+ 手动 `workflow_dispatch` 选择 `type=auto` 或 `type=maintain`
-- **流程**：查询最新版本 → 恢复缓存（安装包 + 提取结果）→ 跑 `check extract` → 生成报告 → 创建/更新 `auto-maintain` 标签的 Issue
-- **自动关 Issue**：当失效项降为 0 时，自动关闭历史维护 Issue
+- **流程**：查询最新版本 → 恢复缓存（安装包 + 提取结果）→ 跑 `check extract` → 生成报告 → 失效项或未翻译候选任一 > 0 时创建/更新 `auto-maintain` 标签的 Issue
+- **自动关 Issue**：仅当失效项与未翻译候选都为 0 时，自动关闭历史维护 Issue
 - **不自动合并**：所有映射改动仍需人工确认，避免破坏 GitHub Desktop
 
 > ⚠️ 缓存 key 绑定 GitHub Desktop 版本、平台与工具源码（`ghd-maintain-v3-<版本>-<平台>-<工具哈希>`），安装包或工具变化后自动失效重建。
@@ -244,8 +244,8 @@ Replays the C++ loader's full **in-order application** (`ProcessJsFile` + `Apply
 The workflow lives at `../../.github/workflows/tupigghd2chinese.yml` (repository root):
 
 - **Triggers**: push to `main` + daily schedule (10:00 Beijing time) + manual `workflow_dispatch` with `type=auto` or `type=maintain`
-- **Flow**: query the latest version → restore caches (installer + extraction results) → run `check extract` → generate the report → create/update the `auto-maintain` labeled issue
-- **Auto-closing issues**: historical maintenance issues are closed automatically once stale entries drop to 0
+- **Flow**: query the latest version → restore caches (installer + extraction results) → run `check extract` → generate the report → create/update the `auto-maintain` labeled issue when stale entries or untranslated candidates are greater than 0
+- **Auto-closing issues**: historical maintenance issues are closed automatically only when both stale entries and untranslated candidates drop to 0
 - **Never auto-merges**: all mapping changes still require manual confirmation, to avoid breaking GitHub Desktop
 
 > ⚠️ The cache key binds the GitHub Desktop version, platform, and tool source (`ghd-maintain-v3-<version>-<platform>-<tool hash>`); it is invalidated and rebuilt automatically when the installer or tool changes.

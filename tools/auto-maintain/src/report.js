@@ -86,6 +86,9 @@ export function renderMarkdown(report) {
     lines.push(`## 未翻译候选`);
     lines.push('');
     lines.push(`基于 ${patternsCount} 条映射正则，发现 ${candidates.length} 条未被覆盖的英文文案候选。`);
+    // 结构化统计 meta 行(HTML 注释, 渲染不可见): report-issue.js 用它判断
+    // “仅有未翻译候选、没有失效项”时也应创建/更新自动维护 Issue
+    lines.push(`<!-- candidates: count=${candidates.length} -->`);
     lines.push('');
     lines.push(`> **如何补充翻译**：将草稿中的 \`【待翻译】\` 替换为中文译文后，加入对应数组`);
     lines.push(`> （来源含 \`main.js\` → 加入 \`main\`；来源含 \`renderer.js\` → 加入 \`renderer\`）。`);
