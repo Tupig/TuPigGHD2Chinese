@@ -12,7 +12,11 @@ fail() {
 }
 
 assert_fails() {
-  if "$@"; then
+  # 预期负例的 stderr 是断言的一部分，正常失败时静默；
+  # 仅当命令意外成功时回放输出，保留失败诊断。
+  local output
+  if output="$("$@" 2>&1)"; then
+    printf '%s\n' "$output" >&2
     fail "命令本应失败却成功: $*"
   fi
 }
