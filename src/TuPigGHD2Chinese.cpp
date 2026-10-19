@@ -47,6 +47,7 @@
 #include "utils/replace_engine.hpp" // 替换引擎(#129): 单遍构建 + 字面量快路径
 #include "utils/l10n_rules.hpp"     // 映射纯规则(#267): $ 转义 / ReDoS 启发式 / 占位符回填
 #include "utils/backup_policy.hpp"  // 备份策略判定(#276): 何时新建 .bak / 何时拒绝
+#include "utils/localization_state.hpp" // 已汉化检测: 避免对中文文件重复套用英文映射(0 命中)
 #include "version/Version.hpp"
 
 #ifdef _MSC_VER
@@ -1394,6 +1395,40 @@ static int GuardedMain(int argc, char** argv, const fs::path& self_path)
     return 1;
 }
 
+// 已汉化保护: 目标 js 已含大量中文时，英文→中文映射必然 0 命中。
+// 此时提示用户改用 --translationfrombak / --rollback，避免静默无效运行。
+// 已明确从备份翻译、失效检测或仅做错误检查(不替换)的场景不拦截。
+static bool RejectAlreadyLocalizedTranslation()
+{
+    if(_debug_translation_from_bak || _debug_invalid_check_mode || _debug_no_replace_res) {
+        return true;
+    }
+    bool localized = false;
+    for(const char* name : { "main.js", "renderer.js" }) {
+        const auto target = Base / name;
+        std::error_code ec;
+        if(!fs::exists(target, ec) || ec) {
+            continue;
+        }
+        if(utils::LooksAlreadyLocalized(utils::ReadFile(target.string()))) {
+            localized = true;
+            break;
+        }
+    }
+    if(!localized) {
+        return true;
+    }
+    const bool has_backup = fs::exists(Base / "main.js.bak") || fs::exists(Base / "renderer.js.bak");
+    if(has_backup) {
+        spdlog::error("检测到 main.js/renderer.js 已是汉化内容（含大量中文），继续执行只会 0 命中。");
+        spdlog::error("请使用 --translationfrombak 从原始备份重新汉化，或先执行 --rollback 还原后再运行。");
+    } else {
+        spdlog::error("检测到 main.js/renderer.js 已是汉化内容（含大量中文），但未找到 .bak 原始备份。");
+        spdlog::error("请重新安装/更新 GitHub Desktop 后再运行。");
+    }
+    return false;
+}
+
 // 主流程(原 wmain/main 共享主体, #130 拆出供 GuardedMain 包裹)
 static int RunMain(int argc, char** argv, const fs::path& self_path)
 {
@@ -1596,6 +1631,12 @@ static int RunMain(int argc, char** argv, const fs::path& self_path)
     // 指定还原(短路: 在 json 加载之前执行, json 损坏/断网不阻断回滚)
     if(rollback) {
         return PerformRollback();
+    }
+
+    // 已汉化保护: 避免把英文映射重复套到中文文件上（日志 0 命中，用户误判为映射失效）
+    if(!RejectAlreadyLocalizedTranslation()) {
+        PAUSE
+        return 1;
     }
 
     // 映射加载与结构校验(#121 阶段拆分)
