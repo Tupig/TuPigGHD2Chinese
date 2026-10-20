@@ -49,3 +49,9 @@ docs/HANDOFF.md
 
 # 本地规划/SDD 产物目录（禁止推送 GitHub：仅本地工作文件）
 spec/
+
+# AI 辅助工具本地配置（不入库：不参与构建/CI，仅本地开发会话使用）
+.specify/
+.agents/
+.rtk/
+.deveco/
