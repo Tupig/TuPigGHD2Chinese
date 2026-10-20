@@ -31,7 +31,7 @@
 - **自更新**：按发布资产声明的 SHA256 校验下载完整性；文件替换采用原子写入并保留备份
 - **供应链**
   - 第三方 Actions 全部按 commit SHA 固定（版本升级随上游手动执行；依赖漏洞由 Dependabot 告警提示）
-  - Windows 的 OpenSSL 静态库与头文件直接随仓库提交（`third_party/openssl/`，由上游源码构建，版本记录与构建流程见 [`third_party/README.md`](third_party/README.md)）；macOS 静态库由 CI 基于上游 OpenSSL 3.x 源码构建
+  - OpenSSL 三平台（Windows / macOS / Linux）静态库与头文件均随仓库提交（`third_party/openssl*/`，由主工作流 vendor 任务基于上游官方源码构建产出，版本记录与构建流程见 [`third_party/README.md`](third_party/README.md)）
   - 发布产物附带构建溯源证明（SLSA provenance），可校验：
 
     ```bash
@@ -80,7 +80,7 @@ Reports should ideally include: a description of the issue, reproduction steps, 
 - **Self-update**: download integrity is verified against the SHA256 declared by the release asset; file replacement is atomic and keeps backups
 - **Supply chain**
   - Third-party Actions are all pinned by commit SHA (upgrades are performed manually; dependency vulnerabilities are flagged by Dependabot alerts)
-  - The Windows OpenSSL static libraries and headers are committed directly to the repository (`third_party/openssl/`, built from upstream sources — see [`third_party/README.md`](third_party/README.md) for version records and the build process); macOS static libraries are built by CI from upstream OpenSSL 3.x sources
+  - The OpenSSL static libraries and headers for all three platforms (Windows / macOS / Linux) are committed to the repository (`third_party/openssl*/`, produced by the main workflow's vendor jobs from official upstream sources — see [`third_party/README.md`](third_party/README.md) for version records and the build process)
   - Release artifacts carry build provenance attestations (SLSA provenance) that can be verified with:
 
     ```bash

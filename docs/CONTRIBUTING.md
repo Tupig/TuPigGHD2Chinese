@@ -21,29 +21,11 @@
 
 4. **匹配字符串建议带上引号**：如 `["\"&View\"","\"视图\""]`，以避免误匹配到 `&View on GitHub` 等更长文本；如果误替换了这些长文本，后面的映射就匹配不到了。
 
-5. **统一转义规则**：无论是 `?` 还是其他正则特殊符号，都需要使用两个反斜杠转义；只有双引号是只需要一个反斜杠转义。所有为正则表达式而添加的反斜杠，在译文部分都不需要也不能有。
-
-   常用正则符号速查：
-
-   | 符号 | 含义 |
-   | --- | --- |
-   | `.` | 匹配任何单个字符（除了换行符） |
-   | `*` | 匹配前面的子表达式零次或多次 |
-   | `+` | 匹配前面的子表达式一次或多次 |
-   | `?` | 匹配前面的子表达式零次或一次 |
-   | `{n}` / `{n,}` / `{n,m}` | 匹配确定的 n 次 / 至少 n 次 / n 到 m 次 |
-   | `^` / `$` | 匹配输入字符串的开始 / 结束位置 |
-   | `[...]` | 字符集，匹配方括号中的任何字符 |
-   | `|` | 或者，匹配 `|` 前后的任何表达式 |
-   | `( )` | 捕获括号 |
-   | `\` | 转义字符：匹配特殊字符字面值或反斜杠本身时，需在其前面加上 `\` |
+5. **统一转义规则**：无论是 `?` 还是其他正则特殊符号，都需要使用两个反斜杠转义；只有双引号是只需要一个反斜杠转义。所有为正则表达式而添加的反斜杠，在译文部分都不需要也不能有。常用正则速查表见[wiki 正则表达式指南](wiki/正则表达式指南.md#7-常用正则速查)。
 
 6. **JSON 语法**：数组最后一项结尾不可有逗号，否则无法读取。如 `[["xx","xxx"],["",""],]` 是错误写法。
 
-7. **善用正则模糊匹配**：如 `Ee.createElement\\(yD,null,this.props.repositoryName` 中的函数参数 `yD` 常因版本更新而变动，可利用正则模糊匹配这两位字符，使其适应性更强：
-
-   - 查找：`Ee.createElement\\((..),null,this.props.repositoryName`（查找项是正则，JSON 中需 `\\(` 转义出正则的 `\(`）
-   - 替换：`Ee.createElement($1,null,this.props.repositoryName`（替换文本按**字面量**插入，不可带反斜杠——写成 `\\(` 会让生成的 main.js 出现 `createElement\(` 而语法报错；`$1` 表示第一个正则捕获到的内容）
+7. **善用正则模糊匹配**：查找项中的易变片段（如函数参数名）可用正则通配符模糊匹配、捕获组 `(..)` 引用，增强条目对版本更新的适应性。完整示例（`Ee.createElement`）见[wiki 正则表达式指南](wiki/正则表达式指南.md#用正则模糊匹配易变片段)。
 
 8. **使用自动维护工具辅助补充翻译**（会生成可直接粘贴的条目草稿）：
 
@@ -61,7 +43,7 @@
 
 ## 本地验证改动
 
-1. 按 [README「怎么编译源代码」](../README.md#-怎么编译源代码) 编译加载器。
+1. 按 [README「怎么编译源代码」](../README.md#怎么编译源代码) 编译加载器。
 2. **快速验证**：把新条目放入 `main_dev` / `renderer_dev`，启动时按住 `Shift` 进入开发者选项，选择「仅替换指定映射项」；验证通过后再移动到正式数组。
 3. **批量自检失效条目**（推荐提交前运行；需本机已安装 GitHub Desktop，或用 `-g` 指定 js 目录）：
 
@@ -71,9 +53,9 @@
 
    > `--nopause` 为程序级参数，必须写在 `dev` 子命令之前；输出会逐个报告匹配失败 / 正则非法的条目。
 4. 也可用自动维护工具离线检测与提取候选：`cd tools/auto-maintain && npm run all`，详见[工具说明](../tools/auto-maintain/README.md)（参数与报告格式另见 [wiki 自动维护工具](wiki/自动维护工具.md)）。
-5. 加载器（`src/`）改动的冒烟回归：运行 [`tools/ci/smoke-test.ps1`](../tools/ci/smoke-test.ps1)，自动探测构建产物并依次执行帮助、非法参数、临时目录汉化、回滚四组用例，全部 PASS 即通过。Windows PowerShell 5.1 与 pwsh 7 均可运行（#136：脚本内部已对 native 调用局部降级 `$ErrorActionPreference`，规避 5.1 下 stderr 重定向触发 `NativeCommandError` 中止的问题）。
-6. **C++ 单元测试**（改 `src/` 或 `tests/` 后必跑）：构建后运行 `ctest --preset x64-release`（运行 `version_test` / `replace_engine_test` / `utils_test` / `l10n_rules_test` / `backup_policy_test` / `selfupdate_test`，用 GoogleTest 断言、CTest 聚合；等价 `ctest -C Release --output-on-failure`）。preset 已内置多配置生成器必需的 `-C Release`——不用 preset 直接运行 `ctest` 时，`cmake -B build` 在 Windows 默认生成的 VS 多配置目录必须补 `-C Release`，否则测试以 `Not Run` 假失败（#169）。
-7. **工具链单元测试与覆盖率**（改 `tools/` 下校验器或自动维护工具后必跑）：Python 校验器测试 —— 先 `python -m pip install -r tools/ci/requirements-dev.txt`，再 `python -m pytest --cov --cov-report=term-missing --cov-fail-under=90`（pytest + pytest-cov，收集 `tools/ci/` 全部 `*-test.py`，覆盖率配置见 `.coveragerc`）；Node 工具测试 —— `cd tools/auto-maintain && npm ci && npm test`（Vitest，覆盖率阈值见 `vitest.config.mjs`；`tools/ci` 的两个 GitHub 脚本由 `test/ci-issue-handlers.test.mjs` 的行为用例覆盖）；Bash 功能测试 —— `bash tools/ci/bash-scripts-test.sh`（覆盖 OpenSSL 哈希校验与 Wiki 镜像正反例）；C++ 覆盖率可在 Linux 上以 `-DCMAKE_CXX_FLAGS=--coverage` 配置构建后 `gcovr --filter 'src/utils/' --filter 'src/version/' --exclude 'third_party/'` 度量（Windows/MSVC 无本地覆盖率工具）。
+5. 加载器（`src/`）改动的冒烟回归：运行 [`tools/ci/smoke-test.ps1`](../tools/ci/smoke-test.ps1)，自动探测构建产物并依次执行帮助、非法参数、临时目录汉化、回滚四组用例，全部 PASS 即通过。
+6. **C++ 单元测试**（改 `src/` 或 `tests/` 后必跑）：构建后运行 `ctest --preset x64-release`。
+7. **工具链单元测试与覆盖率**（改 `tools/` 下校验器或自动维护工具后必跑）：Python 校验器 `python -m pytest --cov`（覆盖率门禁 ≥90%）；Node 工具 `cd tools/auto-maintain && npm ci && npm test`（Vitest）；Bash 功能测试 `bash tools/ci/bash-scripts-test.sh`。各命令的完整参数、覆盖率与多配置生成器注意事项见 [wiki 编译指南「构建后验证」](wiki/编译指南.md#6-构建后验证)。
 
 ## 发布说明（docs/ReleaseBody.md）
 
@@ -160,29 +142,11 @@ Thanks for contributing translations to TuPigGHD2Chinese! Before adding or modif
 
 4. **Include quote boundaries in find patterns**: e.g. `["\"&View\"","\"视图\""]`, to avoid accidentally matching longer texts such as `&View on GitHub`; if those longer texts get rewritten, later mappings can no longer match them.
 
-5. **Unified escaping rules**: whether it is `?` or any other regex special character, escape it with two backslashes; only the double quote takes a single backslash. Backslashes added for regex purposes must never appear in the translation part.
-
-   Quick reference for common regex symbols:
-
-   | Symbol | Meaning |
-   | --- | --- |
-   | `.` | Matches any single character (except a newline) |
-   | `*` | Matches the preceding sub-expression zero or more times |
-   | `+` | Matches the preceding sub-expression one or more times |
-   | `?` | Matches the preceding sub-expression zero or one time |
-   | `{n}` / `{n,}` / `{n,m}` | Matches exactly n times / at least n times / n to m times |
-   | `^` / `$` | Matches the start / end position of the input string |
-   | `[...]` | Character set: matches any character in the brackets |
-   | `|` | Alternation: matches any expression before or after `|` |
-   | `( )` | Capturing group |
-   | `\` | Escape character: to match a literal special character or a backslash itself, precede it with `\` |
+5. **Unified escaping rules**: whether it is `?` or any other regex special character, escape it with two backslashes; only the double quote takes a single backslash. Backslashes added for regex purposes must never appear in the translation part. See the common regex quick reference in the [wiki regex guide](wiki/正则表达式指南.md#7-常用正则速查).
 
 6. **JSON syntax**: the last item of an array must not be followed by a comma, otherwise the file cannot be read. For example, `[["xx","xxx"],["",""],]` is incorrect.
 
-7. **Use regex fuzzy matching wisely**: function arguments such as `yD` in `Ee.createElement\\(yD,null,this.props.repositoryName` often change between GitHub Desktop releases; match those two characters fuzzily with a regex to make the entry more resilient:
-
-   - Find: `Ee.createElement\\((..),null,this.props.repositoryName` (the find pattern is a regex; in JSON, `\\(` escapes to the regex `\(`)
-   - Replace: `Ee.createElement($1,null,this.props.repositoryName` (the replacement text is inserted **literally** and must not contain backslashes — writing `\\(` would emit `createElement\(` into the generated main.js and cause a syntax error; `$1` refers to the content captured by the first regex group)
+7. **Use regex fuzzy matching wisely**: volatile fragments in find patterns (e.g. function argument names) can be matched fuzzily and referenced via capture groups `(..)` to make entries resilient across releases. A full example (`Ee.createElement`) is in the [wiki regex guide](wiki/正则表达式指南.md#用正则模糊匹配易变片段).
 
 8. **Use the auto-maintain tool to help add translations** (it generates ready-to-paste entry drafts):
 
@@ -200,7 +164,7 @@ Thanks for contributing translations to TuPigGHD2Chinese! Before adding or modif
 
 ## Verifying Changes Locally
 
-1. Build the loader following the [README "Building from source"](../README.md#-怎么编译源代码) section.
+1. Build the loader following the [README "Building from source"](../README.md#怎么编译源代码) section.
 2. **Quick check**: put the new entries into `main_dev` / `renderer_dev`, hold `Shift` at startup to open the developer options and pick "replace only specified mappings"; move them into the official arrays after verifying.
 3. **Batch self-check for invalid entries** (recommended before submitting; requires GitHub Desktop installed locally, or pass its js directory via `-g`):
 
@@ -210,9 +174,9 @@ Thanks for contributing translations to TuPigGHD2Chinese! Before adding or modif
 
    > `--nopause` is a program-level flag and must come **before** the `dev` subcommand; the output reports each entry whose pattern fails to match or whose regex is invalid.
 4. You can also use the auto-maintain tool for offline checking and candidate extraction: `cd tools/auto-maintain && npm run all` — see the [tool README](../tools/auto-maintain/README.md) (parameters and report format are also covered in the [wiki auto-maintain tool](wiki/自动维护工具.md) page).
-5. Smoke regression for loader (`src/`) changes: run [`tools/ci/smoke-test.ps1`](../tools/ci/smoke-test.ps1); it auto-detects the build output and runs four test groups in turn — help, invalid-argument rejection, localization in a temp directory, and rollback. All groups PASS means the change passes. Works under both Windows PowerShell 5.1 and pwsh 7 (#136: native calls are wrapped with a locally downgraded `$ErrorActionPreference`, avoiding the 5.1 `NativeCommandError` abort on stderr redirection).
-6. **C++ unit tests** (mandatory after touching `src/` or `tests/`): after building, run `ctest --preset x64-release` (runs `version_test` / `replace_engine_test` / `utils_test` / `l10n_rules_test` / `backup_policy_test` / `selfupdate_test`, written with GoogleTest and aggregated by CTest; equivalent to `ctest -C Release --output-on-failure`). The preset bakes in the `-C Release` that multi-config generators require — when invoking `ctest` directly without a preset, the VS multi-config directory that `cmake -B build` creates by default on Windows must add `-C Release`, otherwise the tests fake-fail with `Not Run` (#169).
-7. **Toolchain unit tests & coverage** (mandatory after touching validators or the auto-maintain tool under `tools/`): Python validator tests — first `python -m pip install -r tools/ci/requirements-dev.txt`, then `python -m pytest --cov --cov-report=term-missing --cov-fail-under=90` (pytest + pytest-cov; pytest collects every `*-test.py` under `tools/ci/`; coverage config in `.coveragerc`); Node tool tests — `cd tools/auto-maintain && npm ci && npm test` (Vitest; coverage thresholds in `vitest.config.mjs`; the two GitHub scripts under `tools/ci` are covered by behavior tests in `test/ci-issue-handlers.test.mjs`); Bash functional tests — `bash tools/ci/bash-scripts-test.sh` (positive and negative cases for OpenSSL hash verification and Wiki mirroring); C++ coverage can be measured on Linux by configuring with `-DCMAKE_CXX_FLAGS=--coverage` and running `gcovr --filter 'src/utils/' --filter 'src/version/' --exclude 'third_party/'` (no local coverage tooling under Windows/MSVC).
+5. Smoke regression for loader (`src/`) changes: run [`tools/ci/smoke-test.ps1`](../tools/ci/smoke-test.ps1); it auto-detects the build output and runs four test groups in turn — help, invalid-argument rejection, localization in a temp directory, and rollback. All groups PASS means the change passes.
+6. **C++ unit tests** (mandatory after touching `src/` or `tests/`): after building, run `ctest --preset x64-release`.
+7. **Toolchain unit tests & coverage** (mandatory after touching validators or the auto-maintain tool under `tools/`): Python validators via `python -m pytest --cov` (coverage gate ≥90%); Node tools via `cd tools/auto-maintain && npm ci && npm test` (Vitest); Bash functional tests via `bash tools/ci/bash-scripts-test.sh`. Full parameters, coverage details and multi-config-generator caveats are in the [wiki build guide's "Post-build verification"](wiki/编译指南.md#6-构建后验证) section.
 
 ## Release Notes (docs/ReleaseBody.md)
 

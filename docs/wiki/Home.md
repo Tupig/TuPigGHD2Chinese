@@ -53,12 +53,13 @@
 | [汉化原理](汉化原理.md) | 架构设计、目录自动探测、备份与原子写入、三元素回填、自动更新机制 |
 | [编译指南](编译指南.md) | 三平台（Windows / macOS / Linux）环境准备、CMake 预设、OpenSSL 处理、常见构建错误 |
 | [CI-CD](CI-CD.md) | 统一工作流的各个 job、触发矩阵、版本号递增与发布规则、质量门、Wiki 自动同步 |
+| [维护操作备忘](维护操作备忘.md) | 维护过程中验证过的 gh CLI 规范、行尾策略、CI 失败排查顺序 |
 
 ### 其他
 
 - [安全政策](../../SECURITY.md)：私密漏洞报告渠道、供应链与校验说明
 - [Release 说明模板](../ReleaseBody.md)：CI 如何把变更行拼进发布说明
-- [项目结构](../../README.md#-项目结构)：仓库目录树速览
+- [项目结构](../../README.md#项目结构)：仓库目录树速览
 
 ---
 
@@ -78,7 +79,7 @@
 | --- | --- | --- |
 | Windows | `TuPigGHD2Chinese.exe`（x64） | 自动探测注册表安装目录；界面文案以 Windows 版 GitHub Desktop 为基准 |
 | macOS | `TuPigGHD2Chinese-macos-x64` / `TuPigGHD2Chinese-macos-arm64` | 按机器架构选择单架构包；静态链接 OpenSSL，自包含；安装目录需手动输入或用 `-g` 指定 |
-| Linux | x64 可执行文件 | 依赖系统 OpenSSL（`libssl-dev`）；安装目录需手动输入或用 `-g` 指定 |
+| Linux | x64 可执行文件 | 静态链接仓库内置 OpenSSL，自包含；安装目录需手动输入或用 `-g` 指定 |
 
 > 仅支持 64 位构建与运行；32 位版本已停止提供（v1.2.6 起）。
 
@@ -139,12 +140,13 @@ Running into problems? Check the [FAQ](常见问题.md) first.
 | [How the Localization Works](汉化原理.md) | Architecture design, automatic directory detection, backups and atomic writes, three-element backfill, the self-update mechanism |
 | [Build Guide](编译指南.md) | Environment setup for three platforms (Windows / macOS / Linux), CMake presets, OpenSSL handling, common build errors |
 | [CI/CD](CI-CD.md) | The jobs of the unified workflow, the trigger matrix, version bumping and release rules, quality gates, automatic Wiki sync |
+| [Maintenance Notes](维护操作备忘.md) | Verified gh CLI rules, line-ending policy, CI failure triage order |
 
 ### Others
 
 - [Security Policy](../../SECURITY.md): private vulnerability reporting, supply chain and verification notes
 - [Release notes template](../ReleaseBody.md): how CI assembles change lines into the release notes
-- [Project structure](../../README.md#-项目结构): a quick look at the repository tree
+- [Project structure](../../README.md#项目结构): a quick look at the repository tree
 
 ---
 
@@ -164,6 +166,6 @@ Running into problems? Check the [FAQ](常见问题.md) first.
 | --- | --- | --- |
 | Windows | `TuPigGHD2Chinese.exe` (x64) | Automatically detects the install directory from the registry; interface texts follow the Windows build of GitHub Desktop |
 | macOS | `TuPigGHD2Chinese-macos-x64` / `TuPigGHD2Chinese-macos-arm64` | Pick the single-architecture package for your machine; statically linked OpenSSL, self-contained; the install directory must be entered manually or passed via `-g` |
-| Linux | x64 executable | Depends on the system OpenSSL (`libssl-dev`); the install directory must be entered manually or passed via `-g` |
+| Linux | x64 executable | Statically linked against the repo-bundled OpenSSL, self-contained; the install directory must be entered manually or passed via `-g` |
 
 > Only 64-bit builds and runs are supported; 32-bit versions are no longer provided (since v1.2.6).

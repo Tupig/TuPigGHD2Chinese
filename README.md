@@ -3,35 +3,34 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/Tupig/TuPigGHD2Chinese/tupigghd2chinese.yml?branch=main&label=CI)](https://github.com/Tupig/TuPigGHD2Chinese/actions/workflows/tupigghd2chinese.yml)
 [![Release](https://img.shields.io/github/v/release/Tupig/TuPigGHD2Chinese)](https://github.com/Tupig/TuPigGHD2Chinese/releases)
 [![License](https://img.shields.io/github/license/Tupig/TuPigGHD2Chinese)](LICENSE.txt)
-[![C++](https://img.shields.io/badge/C%2B%2B-20-blue?logo=cplusplus&logoColor=white)](#-怎么编译源代码)
-[![localization.json](https://img.shields.io/badge/localization.json-v3-green)](#-映射文件-localizationjson)
+[![C++](https://img.shields.io/badge/C%2B%2B-20-blue?logo=cplusplus&logoColor=white)](#怎么编译源代码)
+[![localization.json](https://img.shields.io/badge/localization.json-v3-green)](#映射文件-localizationjson)
 
 **简体中文** | [English](#tupigghd2chinese-english)
 
 > 本仓库派生（fork）自 [cngege/GitHubDesktop2Chinese](https://github.com/cngege/GitHubDesktop2Chinese)，在此基础上继续维护与更新。原作者 [CNGEGE](https://github.com/cngege)，感谢其开创性工作。
 
-> [!TIP]
-> 📚 **更详细的文档**见 [docs/wiki 文档中心](docs/wiki/Home.md)：[安装与使用](docs/wiki/安装与使用.md) · [命令行参数](docs/wiki/命令行参数.md) · [常见问题](docs/wiki/常见问题.md) · [汉化原理](docs/wiki/汉化原理.md) · [映射文件格式](docs/wiki/映射文件格式.md) · [正则表达式指南](docs/wiki/正则表达式指南.md) · [编译指南](docs/wiki/编译指南.md) · [CI/CD](docs/wiki/CI-CD.md) · [贡献指南](docs/wiki/贡献指南.md) · [自动维护工具](docs/wiki/自动维护工具.md)
+更详细的文档见 [docs/wiki 文档中心](docs/wiki/Home.md)：[安装与使用](docs/wiki/安装与使用.md) · [命令行参数](docs/wiki/命令行参数.md) · [常见问题](docs/wiki/常见问题.md) · [汉化原理](docs/wiki/汉化原理.md) · [映射文件格式](docs/wiki/映射文件格式.md) · [正则表达式指南](docs/wiki/正则表达式指南.md) · [编译指南](docs/wiki/编译指南.md) · [CI/CD](docs/wiki/CI-CD.md) · [贡献指南](docs/wiki/贡献指南.md) · [自动维护工具](docs/wiki/自动维护工具.md)
 
 ## 目录
 
-- [🥮 这是什么](#-这是什么)
-- [🎯 怎么使用它](#-怎么使用它)
-- [🔄 从旧版本升级（项目更名说明）](#-从旧版本升级项目更名说明)
-- [⚙️ 命令行参数](#-命令行参数)
-- [🏗 怎么编译源代码](#-怎么编译源代码)
-- [👕 怎么贡献汉化](#-怎么贡献汉化)
-- [🍬 映射文件 localization.json](#-映射文件-localizationjson)
-- [🧪 CI / 自动维护](#-ci--自动维护)
-- [📁 项目结构](#-项目结构)
-- [🔭 开启 GitHub Desktop 预览版选项](#-开启-github-desktop-预览版选项)
-- [🧭 常见问题](#-常见问题)
-- [🎋 功能特性](#-功能特性)
-- [📦 第三方库](#-第三方库)
-- [⭐ 星标历史](#-星标历史)
-- [🏘 感谢大家的群策群力](#-感谢大家的群策群力)
+- [这是什么](#这是什么)
+- [怎么使用它](#怎么使用它)
+- [从旧版本升级（项目更名说明）](#从旧版本升级项目更名说明)
+- [命令行参数](#命令行参数)
+- [怎么编译源代码](#怎么编译源代码)
+- [怎么贡献汉化](#怎么贡献汉化)
+- [映射文件 localization.json](#映射文件-localizationjson)
+- [CI 与自动维护](#ci-与自动维护)
+- [项目结构](#项目结构)
+- [开启 GitHub Desktop 预览版选项](#开启-github-desktop-预览版选项)
+- [常见问题](#常见问题)
+- [功能特性](#功能特性)
+- [第三方库](#第三方库)
+- [星标历史](#星标历史)
+- [感谢大家的群策群力](#感谢大家的群策群力)
 
-## 🥮 这是什么
+## 这是什么
 
 一个自动替换 [GitHub Desktop](https://desktop.github.com/)（[官方仓库 desktop/desktop](https://github.com/desktop/desktop)）界面文本为目标语言（中文）的程序：
 
@@ -39,9 +38,9 @@
 - **低维护成本**：版本更新后仅需手动补充个别失效翻译条目
 - **可自动更新**：加载器自动检测新版本，支持一键更新与断点续传
 
-## 🎯 怎么使用它
+## 怎么使用它
 
-[🎀 视频教程（BiliBili）](https://www.bilibili.com/video/BV17HpSeHEaC/) · [📖 详细教程：安装与使用](docs/wiki/安装与使用.md)
+[视频教程（BiliBili）](https://www.bilibili.com/video/BV17HpSeHEaC/) · [详细教程：安装与使用](docs/wiki/安装与使用.md)
 
 **方式一（推荐）**：前往 [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases) 下载 `TuPigGHD2Chinese.exe`，双击运行，程序自动联网获取最新 `localization.json` 完成汉化。
 
@@ -53,17 +52,16 @@
 > - 汉化映射以 **Windows 版** GitHub Desktop 文案为准，其他平台文案基本一致，个别条目可能不匹配。
 > - GitHub Desktop 每次版本更新后，都需要重新运行一次本程序才能完成汉化。
 
-## 🔄 从旧版本升级（项目更名说明）
+## 从旧版本升级（项目更名说明）
 
-> [!IMPORTANT]
-> 自本版本起项目更名为 **TuPigGHD2Chinese**（原 `GitHubDesktop2Chinese`）：仓库地址、程序文件名与发布资产名一并变更为 **`TuPigGHD2Chinese.*`**。
+自本版本起项目更名为 **TuPigGHD2Chinese**（原 `GitHubDesktop2Chinese`）：仓库地址、程序文件名与发布资产名一并变更为 **`TuPigGHD2Chinese.*`**。
 
 - **旧版本无法自动升级**：程序自更新按资产名精确匹配，旧版查找的是 `GitHubDesktop2Chinese.exe`，而新版发布的是 `TuPigGHD2Chinese.exe`，因此二者对不上。
 - **升级方式**：前往 [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases) 手动下载最新版 `TuPigGHD2Chinese.exe`，替换旧程序后重新运行一次汉化即可（`localization.json` 可沿用，程序也会自动获取最新映射）。
 - **旧版本仍可用**：旧版通过 GitHub 对旧仓库名的**重定向**获取远程映射；若旧仓库名日后被他人占用，旧版将无法联网获取映射 —— 届时请升级到新版本。
 - 本次仅为**文件名与品牌更名**，汉化效果与功能不变。
 
-## ⚙️ 命令行参数
+## 命令行参数
 
 > 所有参数均为可选；不带参数双击运行即走默认流程（自动查找 GitHub Desktop 目录 + 联网获取最新映射）。
 >
@@ -118,12 +116,11 @@ TuPigGHD2Chinese.exe --rollback
 > [!NOTE]
 > 若 `main.js` / `renderer.js` 已是汉化内容且未指定 `--translationfrombak`，程序会明确提示并中止，避免对中文文件重复套用英文映射（日志显示 0 命中）。请按提示改用 `--translationfrombak` 或先 `--rollback`。
 
-> [!TIP]
-> 查看内置帮助：`TuPigGHD2Chinese.exe --help`。完整参数说明（含开发者菜单、退出码、错误检查模式详解）见 [📖 Wiki：命令行参数](docs/wiki/命令行参数.md)。
+查看内置帮助：`TuPigGHD2Chinese.exe --help`。完整参数说明（含开发者菜单、退出码、错误检查模式详解）见 [Wiki：命令行参数](docs/wiki/命令行参数.md)。
 
-## 🏗 怎么编译源代码
+## 怎么编译源代码
 
-> 项目基于 CMake，支持 **MSVC（Windows）/ AppleClang（macOS）/ GCC（Linux）** 三套工具链，仅支持 64 位（x64 / arm64）构建，其他架构会在 CMake 阶段直接报错；**所有发布产物均为 64 位**。各平台环境准备与常见构建错误见 [📖 Wiki：编译指南](docs/wiki/编译指南.md)。
+> 项目基于 CMake，支持 **MSVC（Windows）/ AppleClang（macOS）/ GCC（Linux）** 三套工具链，仅支持 64 位（x64 / arm64）构建，其他架构会在 CMake 阶段直接报错；**所有发布产物均为 64 位**。各平台环境准备与常见构建错误见 [Wiki：编译指南](docs/wiki/编译指南.md)。
 
 1. 克隆仓库
 2. 使用 **VS2022** 直接打开项目文件夹（通过 CMake 打开）
@@ -139,17 +136,17 @@ cmake --build build --config Release
 > [!NOTE]
 > OpenSSL 依赖：三平台静态库与头文件均随仓库提交（Windows `third_party/openssl/`、macOS `third_party/openssl-macos-{x64,arm64}/`、Linux `third_party/openssl-linux-x64/`，无需预装或联网下载；版本与更新方式见 [`third_party/README.md`](third_party/README.md)）。CI 发布的 **macOS 产物按架构拆分（`macos-x64` / `macos-arm64`），各平台静态链接 OpenSSL，macOS 产物另经 strip/LTO 裁剪**，自包含无额外依赖。
 
-## 👕 怎么贡献汉化
+## 怎么贡献汉化
 
-1. 克隆仓库，阅读 [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)（更详细的流程见 [📖 Wiki：贡献指南](docs/wiki/贡献指南.md)，正则写法见 [📖 Wiki：正则表达式指南](docs/wiki/正则表达式指南.md)）
+1. 克隆仓库，阅读 [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)（更详细的流程见 [Wiki：贡献指南](docs/wiki/贡献指南.md)，正则写法见 [Wiki：正则表达式指南](docs/wiki/正则表达式指南.md)）
 2. 在 [`json/localization.json`](json/localization.json) 中参照已有格式补充翻译条目
 3. 提交 PR
 
 **开发调试技巧**：新写的条目可先放入 `main_dev` 或 `renderer_dev`，然后按住 `Shift` 启动程序，开启「仅替换指定映射项」进行快速测试；完成后按 [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) 的条目顺序规则移动到 `main` / `renderer`（一般追加到末尾；若与更宽泛条目存在「短含长」，须插到其前面）再提交 PR。
 
-## 🍬 映射文件 localization.json
+## 映射文件 localization.json
 
-存储 GitHub Desktop 英文文本到中文文本的映射，通过正则匹配完成替换。项目日常更新主要维护此文件（字段与条目规则详见 [📖 Wiki：映射文件格式](docs/wiki/映射文件格式.md)，正则写法见 [📖 Wiki：正则表达式指南](docs/wiki/正则表达式指南.md)）。
+存储 GitHub Desktop 英文文本到中文文本的映射，通过正则匹配完成替换。项目日常更新主要维护此文件（字段与条目规则详见 [Wiki：映射文件格式](docs/wiki/映射文件格式.md)，正则写法见 [Wiki：正则表达式指南](docs/wiki/正则表达式指南.md)）。
 
 - 路径：`json/localization.json`
 
@@ -173,9 +170,9 @@ cmake --build build --config Release
 | `enable` | bool | 此条是否启用 |
 | `replace` | string[][] | 二维替换数组，`[查找正则, 替换文本, 可选查找正则]` |
 
-## 🧪 CI / 自动维护
+## CI 与自动维护
 
-本仓库使用统一工作流 [`tupigghd2chinese.yml`](.github/workflows/tupigghd2chinese.yml)（job 矩阵、发布规则与质量门明细见 [📖 Wiki：CI/CD](docs/wiki/CI-CD.md)）：
+本仓库使用统一工作流 [`tupigghd2chinese.yml`](.github/workflows/tupigghd2chinese.yml)（job 矩阵、发布规则与质量门明细见 [Wiki：CI/CD](docs/wiki/CI-CD.md)）：
 
 | 功能 | 触发方式 | 说明 |
 | --- | --- | --- |
@@ -186,10 +183,7 @@ cmake --build build --config Release
 | 失效检测 + 候选提取 | push `main` / 定时（每日）/ 手动 auto、maintain、release | 检测失效映射、提取未翻译候选，自动创建/关闭 Issue |
 | Release 发布 | push `main`（有变更时）/ tag `v*` / 定时（有变更时）/ 手动 auto（仅 main, 有变更）、release（仅 main） | 自动升级版本号，发布多平台产物 + localization.json |
 
-> 手动触发的 `type` 仅执行对应子集；`version` 为可选覆盖——**留空即自动递增版本**（如 `0.0.1 → 0.0.2`，patch 满 100 进位 minor），填写时须为 `x.y.z` 纯数字，否则 CI 在版本号校验处直接失败。
-
-> [!TIP]
-> 手动触发 `type=auto` 会跑完整链路（构建 → 检查 → 维护 → 发布），版本号自动递增（如 `0.0.1 → 0.0.2`）；也可在 `version` 输入框手动指定（`x.y.z` 格式）。
+手动触发的 `type` 仅执行对应子集；`version` 为可选覆盖——**留空即自动递增版本**（如 `0.0.1 → 0.0.2`，patch 满 100 进位 minor），填写时须为 `x.y.z` 纯数字，否则 CI 在版本号校验处直接失败。手动触发 `type=auto` 会跑完整链路（构建 → 检查 → 维护 → 发布）。
 
 自动维护工具位于 [`tools/auto-maintain`](tools/auto-maintain)，基于 **Windows 版** GitHub Desktop 的 `main.js` / `renderer.js` 检测；本地运行：
 
@@ -198,20 +192,20 @@ cd tools/auto-maintain
 npm run all        # 失效检测 + 未翻译候选提取, 报告写入系统临时目录 ghdesktop-auto-maintain/report.md
 ```
 
-> [!NOTE]
-> **定时与发布规则**
-> - **定时调度**：每日 UTC 01:23（北京时间 09:23）自动执行构建与自动维护；另每周一 UTC 02:00 执行 OpenSSL 版本检测。
-> - **变更检测**：以最新 `v*` tag 为基准，检测 `json/`、`src/`、`third_party/`、`CMakeLists.txt`、`CMakePresets.json` 的实际变更。
-> - **条件发布**：push `main`、定时与手动 `auto` 仅在检测到上述变更时发布新版本（补丁号 +1）；无变更自动跳过，避免空版本。`type=release` 与推送 tag 始终发布。
+**定时与发布规则**
 
-## 📁 项目结构
+- **定时调度**：每日 UTC 01:23（北京时间 09:23）自动执行构建与自动维护；另每周一 UTC 02:00 执行 OpenSSL 版本检测。
+- **变更检测**：以最新 `v*` tag 为基准，检测 `json/`、`src/`、`third_party/`、`CMakeLists.txt`、`CMakePresets.json` 的实际变更。
+- **条件发布**：push `main`、定时与手动 `auto` 仅在检测到上述变更时发布新版本（补丁号 +1）；无变更自动跳过，避免空版本。`type=release` 与推送 tag 始终发布。
+
+## 项目结构
 
 架构概览：一个 C++ 主程序（`src/`，加载器 + 汉化器，产物为单文件 exe）、一份汉化映射数据（`json/localization.json`，运行时从本地或远程加载）、一个 Node.js 自动维护工具（`tools/auto-maintain`）以及统一 CI 工作流（`.github/workflows`，CI 脚本位于 `tools/ci`）。
 
 ```text
 .
 ├── src/                          # C++ 主程序源码
-│   ├── TuPigGHD2Chinese.cpp # 程序入口与汉化主流程
+│   ├── TuPigGHD2Chinese.cpp      # 程序入口与汉化主流程
 │   ├── TuPigGHD2Chinese.h
 │   ├── utils/                    # 通用工具（伞形入口 + 按职责拆分的子头）
 │   │   ├── utils.hpp             # 伞形汇总头（对外唯一入口）
@@ -244,7 +238,7 @@ npm run all        # 失效检测 + 未翻译候选提取, 报告写入系统临
 └── CMakePresets.json
 ```
 
-## 🔭 开启 GitHub Desktop 预览版选项
+## 开启 GitHub Desktop 预览版选项
 
 GitHub Desktop 内部预览版判断机制：
 
@@ -265,32 +259,29 @@ set GITHUB_DESKTOP_PREVIEW_FEATURES=1
 
 **方式二**：通过加载器运行时按提示选择，自动开启预览版功能（对应 `select` 中的可选替换项）。
 
-## 🧭 常见问题
+## 常见问题
 
-> [!TIP]
-> **找不到 openssl 的 DLL**：请更新到 [最新版本](https://github.com/Tupig/TuPigGHD2Chinese/releases)。
->
-> **提示「文件要求加载器版本至少为…」/ 版本不满足**：远程映射仅适配最新版加载器，请到 [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases) 升级加载器；也可在提示时输入 `f` 强制替换（不建议，可能出现条目不匹配）。
->
-> **程序不运行 / 一闪而过 / 缺失 `MSVCP140_ATOMIC_WAIT.dll`**：安装 [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist?view=msvc-170) 的 **x64** 版本（`vc_redist.x64.exe`）。
->
-> 安装最新 VC++ 运行库后仍无法运行时，请检查程序目录下是否残留 `MSVCP140.dll`、`VCRUNTIME140.dll` 等文件，如有请删除。
->
-> **汉化后主程序无法打开**：更新加载器后执行 `TuPigGHD2Chinese.exe dev --translationfrombak`。
->
-> **想撤销汉化、还原为汉化前状态**：执行 `TuPigGHD2Chinese.exe --rollback`（从 `main.js.bak` / `renderer.js.bak` 还原）。
->
-> **是否支持 macOS / Linux？**：提供 macOS 分架构二进制（Intel 下载 `macos-x64`、Apple Silicon 下载 `macos-arm64`）与 Linux x64 版本（Release 页下载）。汉化映射针对 **Windows 版** GitHub Desktop 的界面文案（含 `&` 访问键等 Windows 专属内容），其他平台个别条目可能不匹配。
->
-> **脚本 / 自动化运行**：加 `--nopause` 免交互；注意它是程序级参数，须写在 `dev` 等子命令之前。
->
-> 更多问题（代理不生效、`#{n}` 占位符、断点续传、`--invalidcheck` 等）见 [📖 Wiki：常见问题](docs/wiki/常见问题.md)。
+**找不到 openssl 的 DLL**：请更新到 [最新版本](https://github.com/Tupig/TuPigGHD2Chinese/releases)。
+
+**提示「文件要求加载器版本至少为…」/ 版本不满足**：远程映射仅适配最新版加载器，请到 [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases) 升级加载器；也可在提示时输入 `f` 强制替换（不建议，可能出现条目不匹配）。
+
+**程序不运行 / 一闪而过 / 缺失 `MSVCP140_ATOMIC_WAIT.dll`**：安装 [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/zh-cn/cpp/windows/latest-supported-vc-redist?view=msvc-170) 的 **x64** 版本（`vc_redist.x64.exe`）。安装最新 VC++ 运行库后仍无法运行时，请检查程序目录下是否残留 `MSVCP140.dll`、`VCRUNTIME140.dll` 等文件，如有请删除。
+
+**汉化后主程序无法打开**：更新加载器后执行 `TuPigGHD2Chinese.exe dev --translationfrombak`。
+
+**想撤销汉化、还原为汉化前状态**：执行 `TuPigGHD2Chinese.exe --rollback`（从 `main.js.bak` / `renderer.js.bak` 还原）。
+
+**是否支持 macOS / Linux？**：提供 macOS 分架构二进制（Intel 下载 `macos-x64`、Apple Silicon 下载 `macos-arm64`）与 Linux x64 版本（Release 页下载）。汉化映射针对 **Windows 版** GitHub Desktop 的界面文案（含 `&` 访问键等 Windows 专属内容），其他平台个别条目可能不匹配。
+
+**脚本 / 自动化运行**：加 `--nopause` 免交互；注意它是程序级参数，须写在 `dev` 等子命令之前。
+
+更多问题（代理不生效、`#{n}` 占位符、断点续传、`--invalidcheck` 等）见 [Wiki：常见问题](docs/wiki/常见问题.md)。
 
 有任何建议欢迎提 [Issues](https://github.com/Tupig/TuPigGHD2Chinese/issues)。
 
 安全漏洞请按 [`SECURITY.md`](SECURITY.md) 私密报告；发布产物可用 `gh attestation verify <文件> --repo Tupig/TuPigGHD2Chinese` 校验构建来源。
 
-## 🎋 功能特性
+## 功能特性
 
 - [x] JSON 格式标识文件版本与最低加载器版本
 - [x] 加载器程序版本宏定义
@@ -306,7 +297,7 @@ set GITHUB_DESKTOP_PREVIEW_FEATURES=1
 - [x] 系统 HTTP 代理支持（环境变量 + 注册表）
 - [x] 读取 GitHub Desktop 最新版与本地版本对比提示
 
-## 📦 第三方库
+## 第三方库
 
 感谢以下优质开源项目：
 
@@ -319,11 +310,15 @@ set GITHUB_DESKTOP_PREVIEW_FEATURES=1
 | WinReg | Windows 注册表操作 | [GiovanniDicanio/WinReg](https://github.com/GiovanniDicanio/WinReg) |
 | OpenSSL | SSL/TLS 支持 | [openssl/openssl](https://github.com/openssl/openssl) |
 
-## ⭐ 星标历史
+### 第三方库许可声明
+
+每个 Release 附带 [`THIRD_PARTY_NOTICES.txt`](THIRD_PARTY_NOTICES.txt)（BSD-3-Clause / Apache-2.0 / MIT 等许可对二进制再分发要求的版权声明与许可条款全文），仓库根目录亦提供同一文件。
+
+## 星标历史
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Tupig/TuPigGHD2Chinese&type=Date)](https://star-history.com/#Tupig/TuPigGHD2Chinese&Date)
 
-## 🏘 感谢大家的群策群力
+## 感谢大家的群策群力
 
 ![Contributors](https://contrib.rocks/image?repo=Tupig/TuPigGHD2Chinese)
 
@@ -342,26 +337,27 @@ set GITHUB_DESKTOP_PREVIEW_FEATURES=1
 
 > This repository is a fork of [cngege/GitHubDesktop2Chinese](https://github.com/cngege/GitHubDesktop2Chinese), maintained and updated on top of the original work. All credit for the original idea and implementation goes to [CNGEGE](https://github.com/cngege).
 
-> [!TIP]
-> 📚 **Full documentation** is available in the [docs/wiki documentation center](docs/wiki/Home.md) (in Chinese): [Install & Usage](docs/wiki/安装与使用.md) · [Command-line Arguments](docs/wiki/命令行参数.md) · [FAQ](docs/wiki/常见问题.md) · [How It Works](docs/wiki/汉化原理.md) · [Mapping File Format](docs/wiki/映射文件格式.md) · [Regex Guide](docs/wiki/正则表达式指南.md) · [Build Guide](docs/wiki/编译指南.md) · [CI/CD](docs/wiki/CI-CD.md) · [Contributing](docs/wiki/贡献指南.md) · [Auto-maintain Tools](docs/wiki/自动维护工具.md)
+Full documentation is available in the [docs/wiki documentation center](docs/wiki/Home.md) (in Chinese): [Install & Usage](docs/wiki/安装与使用.md) · [Command-line Arguments](docs/wiki/命令行参数.md) · [FAQ](docs/wiki/常见问题.md) · [How It Works](docs/wiki/汉化原理.md) · [Mapping File Format](docs/wiki/映射文件格式.md) · [Regex Guide](docs/wiki/正则表达式指南.md) · [Build Guide](docs/wiki/编译指南.md) · [CI/CD](docs/wiki/CI-CD.md) · [Contributing](docs/wiki/贡献指南.md) · [Auto-maintain Tools](docs/wiki/自动维护工具.md)
 
 ## Contents
 
-- [🥮 What is this](#-what-is-this)
-- [🎯 How to use it](#-how-to-use-it)
-- [🔄 Upgrading from older versions (project rename)](#-upgrading-from-older-versions-project-rename)
-- [⚙️ Command-line arguments](#-command-line-arguments)
-- [🏗 Building from source](#-building-from-source)
-- [👕 How to contribute translations](#-how-to-contribute-translations)
-- [🍬 The mapping file localization.json](#-the-mapping-file-localizationjson)
-- [🧪 CI / Auto-maintenance](#-ci--auto-maintenance)
-- [📁 Project structure](#-project-structure)
-- [🔭 Enabling GitHub Desktop preview options](#-enabling-github-desktop-preview-options)
-- [🧭 FAQ](#-faq)
-- [🎋 Features](#-features)
-- [📦 Third-party libraries](#-third-party-libraries)
+- [What is this](#what-is-this)
+- [How to use it](#how-to-use-it)
+- [Upgrading from older versions (project rename)](#upgrading-from-older-versions-project-rename)
+- [Command-line arguments](#command-line-arguments)
+- [Building from source](#building-from-source)
+- [How to contribute translations](#how-to-contribute-translations)
+- [The mapping file localization.json](#the-mapping-file-localizationjson)
+- [CI and auto-maintenance](#ci-and-auto-maintenance)
+- [Project structure](#project-structure)
+- [Enabling GitHub Desktop preview options](#enabling-github-desktop-preview-options)
+- [FAQ](#faq)
+- [Features](#features)
+- [Third-party libraries](#third-party-libraries)
+- [Star history](#star-history)
+- [Credits](#credits)
 
-## 🥮 What is this
+## What is this
 
 A program that automatically replaces the UI text of [GitHub Desktop](https://desktop.github.com/) ([official repository desktop/desktop](https://github.com/desktop/desktop)) with a target language (Chinese):
 
@@ -369,9 +365,9 @@ A program that automatically replaces the UI text of [GitHub Desktop](https://de
 - **Low maintenance cost**: after a GitHub Desktop update, usually only a few broken translation entries need fixing
 - **Self-updating**: the loader detects new releases automatically and supports one-click updates with resumable downloads
 
-## 🎯 How to use it
+## How to use it
 
-[🎀 Video tutorial (BiliBili, in Chinese)](https://www.bilibili.com/video/BV17HpSeHEaC/) · [📖 Full tutorial: Install & Usage](docs/wiki/安装与使用.md)
+[Video tutorial (BiliBili, in Chinese)](https://www.bilibili.com/video/BV17HpSeHEaC/) · [Full tutorial: Install & Usage](docs/wiki/安装与使用.md)
 
 **Option 1 (recommended)**: download `TuPigGHD2Chinese.exe` from [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases), double-click to run it, and the program fetches the latest `localization.json` over the network and localizes GitHub Desktop.
 
@@ -383,17 +379,16 @@ A program that automatically replaces the UI text of [GitHub Desktop](https://de
 > - Translation mappings are based on the **Windows** build of GitHub Desktop; texts on other platforms are mostly identical, but a few entries may not match.
 > - After each GitHub Desktop update, run this program once again to re-apply the localization.
 
-## 🔄 Upgrading from older versions (project rename)
+## Upgrading from older versions (project rename)
 
-> [!IMPORTANT]
-> Starting with this version the project is renamed to **TuPigGHD2Chinese** (formerly `GitHubDesktop2Chinese`): the repository URL, the executable name and the release asset names all change to **`TuPigGHD2Chinese.*`**.
+Starting with this version the project is renamed to **TuPigGHD2Chinese** (formerly `GitHubDesktop2Chinese`): the repository URL, the executable name and the release asset names all change to **`TuPigGHD2Chinese.*`**.
 
 - **Older versions cannot self-update**: the built-in updater matches asset names exactly — older builds look for `GitHubDesktop2Chinese.exe` while new releases ship `TuPigGHD2Chinese.exe`, so they never match.
 - **How to upgrade**: download the latest `TuPigGHD2Chinese.exe` manually from [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases), replace the old program and run it once again to re-apply the localization (`localization.json` can be kept; the program also fetches the latest mapping automatically).
 - **Older versions still work**: they fetch the remote mapping via GitHub's **redirect** of the old repository name; if that old name is ever taken by someone else, older builds can no longer fetch mappings — upgrade to the new version at that point.
 - This is a **file-name / branding rename only** — the localization result and functionality are unchanged.
 
-## ⚙️ Command-line arguments
+## Command-line arguments
 
 > All arguments are optional; double-clicking without arguments runs the default flow (auto-locate the GitHub Desktop directory + fetch the latest mapping over the network).
 >
@@ -448,12 +443,11 @@ TuPigGHD2Chinese.exe --rollback
 > [!NOTE]
 > If `main.js` / `renderer.js` already contain localized Chinese and `--translationfrombak` was not specified, the program now warns and aborts instead of silently producing 0 matches. Use `--translationfrombak`, or run `--rollback` first.
 
-> [!TIP]
-> Built-in help: `TuPigGHD2Chinese.exe --help`. For the full reference (developer menu, exit codes, error-check mode details) see [📖 Wiki: Command-line Arguments](docs/wiki/命令行参数.md).
+Built-in help: `TuPigGHD2Chinese.exe --help`. For the full reference (developer menu, exit codes, error-check mode details) see [Wiki: Command-line Arguments](docs/wiki/命令行参数.md).
 
-## 🏗 Building from source
+## Building from source
 
-> The project uses CMake and supports three toolchains: **MSVC (Windows) / AppleClang (macOS) / GCC (Linux)**. Only 64-bit (x64 / arm64) builds are supported; other architectures fail at the CMake stage. **All released artifacts are 64-bit.** For per-platform setup and common build errors see [📖 Wiki: Build Guide](docs/wiki/编译指南.md).
+> The project uses CMake and supports three toolchains: **MSVC (Windows) / AppleClang (macOS) / GCC (Linux)**. Only 64-bit (x64 / arm64) builds are supported; other architectures fail at the CMake stage. **All released artifacts are 64-bit.** For per-platform setup and common build errors see [Wiki: Build Guide](docs/wiki/编译指南.md).
 
 1. Clone the repository
 2. Open the project folder directly with **VS2022** (opened via CMake)
@@ -469,17 +463,17 @@ cmake --build build --config Release
 > [!NOTE]
 > OpenSSL dependency: the static libraries and headers are committed to the repository on all three platforms (Windows `third_party/openssl/`, macOS `third_party/openssl-macos-{x64,arm64}/`, Linux `third_party/openssl-linux-x64/`; no preinstall or download needed — see [`third_party/README.md`](third_party/README.md) for versions and update instructions). **CI-released macOS artifacts are split per architecture (`macos-x64` / `macos-arm64`); OpenSSL is statically linked on every platform, with the macOS artifacts additionally trimmed via strip/LTO** — self-contained with no extra dependencies.
 
-## 👕 How to contribute translations
+## How to contribute translations
 
-1. Clone the repository and read [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) (see [📖 Wiki: Contributing Guide](docs/wiki/贡献指南.md) for the detailed workflow, and [📖 Wiki: Regex Guide](docs/wiki/正则表达式指南.md) for regex conventions)
+1. Clone the repository and read [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) (see [Wiki: Contributing Guide](docs/wiki/贡献指南.md) for the detailed workflow, and [Wiki: Regex Guide](docs/wiki/正则表达式指南.md) for regex conventions)
 2. Add translation entries to [`json/localization.json`](json/localization.json) following the existing format
 3. Open a PR
 
 **Debugging tip**: put new entries into `main_dev` or `renderer_dev` first, hold `Shift` at startup, and enable "replace only the specified mappings" for quick testing. Once verified, move them into `main` / `renderer` following the entry-order rules in [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) (usually append at the end; if a shorter entry is contained in a broader one, it must be placed before that entry), then open the PR.
 
-## 🍬 The mapping file localization.json
+## The mapping file localization.json
 
-Stores the mapping from English GitHub Desktop texts to Chinese, applied via regex matching. Day-to-day maintenance of this project is mostly about editing this file (see [📖 Wiki: Mapping File Format](docs/wiki/映射文件格式.md) for fields and entry rules, and [📖 Wiki: Regex Guide](docs/wiki/正则表达式指南.md) for regex conventions).
+Stores the mapping from English GitHub Desktop texts to Chinese, applied via regex matching. Day-to-day maintenance of this project is mostly about editing this file (see [Wiki: Mapping File Format](docs/wiki/映射文件格式.md) for fields and entry rules, and [Wiki: Regex Guide](docs/wiki/正则表达式指南.md) for regex conventions).
 
 - Path: `json/localization.json`
 
@@ -503,9 +497,9 @@ Structure of a `select` element:
 | `enable` | bool | Whether this entry is enabled |
 | `replace` | string[][] | 2-D replacement array: `[find regex, replacement text, optional find regex]` |
 
-## 🧪 CI / Auto-maintenance
+## CI and auto-maintenance
 
-This repository uses a single unified workflow, [`tupigghd2chinese.yml`](.github/workflows/tupigghd2chinese.yml) (see [📖 Wiki: CI/CD](docs/wiki/CI-CD.md) for the job matrix, release rules, and quality gates):
+This repository uses a single unified workflow, [`tupigghd2chinese.yml`](.github/workflows/tupigghd2chinese.yml) (see [Wiki: CI/CD](docs/wiki/CI-CD.md) for the job matrix, release rules, and quality gates):
 
 | Function | Triggers | Description |
 | --- | --- | --- |
@@ -516,10 +510,7 @@ This repository uses a single unified workflow, [`tupigghd2chinese.yml`](.github
 | Invalid-entry detection + candidate extraction | push `main` / scheduled (daily) / manual auto, maintain, release | Detect broken mappings, extract untranslated candidates, auto-create/close issues |
 | Release | push `main` (when changed) / tag `v*` / scheduled (when changed) / manual auto (main only, when changed), release (main only) | Auto-bump the version number and publish multi-platform artifacts + localization.json |
 
-> A manual `type` runs only the corresponding subset; `version` is an optional override — **leave it empty to auto-increment the version** (e.g. `0.0.1 → 0.0.2`; a full patch of 100 carries into minor); if filled in it must be plain `x.y.z` digits, otherwise CI fails at the version validation step.
-
-> [!TIP]
-> Manual `type=auto` runs the full pipeline (build → checks → maintenance → release) and auto-increments the version (e.g. `0.0.1 → 0.0.2`); you can also specify `version` in the input box (`x.y.z` format).
+A manual `type` runs only the corresponding subset; `version` is an optional override — **leave it empty to auto-increment the version** (e.g. `0.0.1 → 0.0.2`; a full patch of 100 carries into minor); if filled in it must be plain `x.y.z` digits, otherwise CI fails at the version validation step. Manual `type=auto` runs the full pipeline (build → checks → maintenance → release).
 
 The auto-maintain tool lives in [`tools/auto-maintain`](tools/auto-maintain) and detects against the **Windows** build of GitHub Desktop's `main.js` / `renderer.js`; run it locally with:
 
@@ -528,20 +519,20 @@ cd tools/auto-maintain
 npm run all        # invalid-entry detection + untranslated candidate extraction; report written to ghdesktop-auto-maintain/report.md in the system temp directory
 ```
 
-> [!NOTE]
-> **Scheduling and release rules**
-> - **Scheduled runs**: build and auto-maintenance run daily at 01:23 UTC (09:23 Beijing time); the OpenSSL version check runs Mondays at 02:00 UTC.
-> - **Change detection**: actual changes to `json/`, `src/`, `third_party/`, `CMakeLists.txt`, `CMakePresets.json` are detected against the latest `v*` tag.
-> - **Conditional releases**: push to `main`, scheduled runs, and manual `auto` publish a new version (patch number +1) only when such changes are detected; otherwise the release step is skipped to avoid empty versions. `type=release` and pushed tags always publish.
+**Scheduling and release rules**
 
-## 📁 Project structure
+- **Scheduled runs**: build and auto-maintenance run daily at 01:23 UTC (09:23 Beijing time); the OpenSSL version check runs Mondays at 02:00 UTC.
+- **Change detection**: actual changes to `json/`, `src/`, `third_party/`, `CMakeLists.txt`, `CMakePresets.json` are detected against the latest `v*` tag.
+- **Conditional releases**: push to `main`, scheduled runs, and manual `auto` publish a new version (patch number +1) only when such changes are detected; otherwise the release step is skipped to avoid empty versions. `type=release` and pushed tags always publish.
+
+## Project structure
 
 Architecture overview: a C++ main program (`src/`, loader + localizer, producing a single-file exe), one localization mapping file (`json/localization.json`, loaded from disk or the network at runtime), a Node.js auto-maintain tool (`tools/auto-maintain`), and a unified CI workflow (`.github/workflows`, with CI scripts in `tools/ci`).
 
 ```text
 .
 ├── src/                          # C++ main program sources
-│   ├── TuPigGHD2Chinese.cpp # Entry point and main localization flow
+│   ├── TuPigGHD2Chinese.cpp      # Entry point and main localization flow
 │   ├── TuPigGHD2Chinese.h
 │   ├── utils/                    # Shared utilities (umbrella header + per-responsibility subheaders)
 │   │   ├── utils.hpp             # Umbrella header (the only public entry)
@@ -574,7 +565,7 @@ Architecture overview: a C++ main program (`src/`, loader + localizer, producing
 └── CMakePresets.json
 ```
 
-## 🔭 Enabling GitHub Desktop preview options
+## Enabling GitHub Desktop preview options
 
 How GitHub Desktop internally decides whether preview features are on:
 
@@ -595,32 +586,29 @@ set GITHUB_DESKTOP_PREVIEW_FEATURES=1
 
 **Option 2**: choose as prompted while running the loader, which enables the preview features automatically (these are the optional replacements under `select`).
 
-## 🧭 FAQ
+## FAQ
 
-> [!TIP]
-> **Cannot find the OpenSSL DLLs**: please update to the [latest release](https://github.com/Tupig/TuPigGHD2Chinese/releases).
->
-> **"The mapping file requires loader version …" / version requirement not met**: the remote mapping targets only the latest loader; please upgrade the loader from [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases). You can also type `f` at the prompt to force the replacement (not recommended — some entries may not match).
->
-> **The program does not run / flashes and exits / `MSVCP140_ATOMIC_WAIT.dll` is missing**: install the **x64** build of the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (`vc_redist.x64.exe`).
->
-> If it still fails after installing the latest VC++ runtime, check the program folder for leftover files such as `MSVCP140.dll` or `VCRUNTIME140.dll` and delete them.
->
-> **GitHub Desktop fails to open after localization**: after updating the loader, run `TuPigGHD2Chinese.exe dev --translationfrombak`.
->
-> **Want to undo the localization**: run `TuPigGHD2Chinese.exe --rollback` (restores from `main.js.bak` / `renderer.js.bak`).
->
-> **Is macOS / Linux supported?**: per-architecture macOS binaries are provided (Intel: download `macos-x64`; Apple Silicon: `macos-arm64`) along with a Linux x64 build (from the Release page). The mappings target the **Windows** build of GitHub Desktop's UI texts (including Windows-specific content such as `&` access keys); a few entries may not match on other platforms.
->
-> **Scripted / automated runs**: add `--nopause` for non-interactive use; note that it is a program-level argument and must come before subcommands such as `dev`.
->
-> More topics (proxy not taking effect, `#{n}` placeholders, resumable downloads, `--invalidcheck`, etc.) in [📖 Wiki: FAQ](docs/wiki/常见问题.md).
+**Cannot find the OpenSSL DLLs**: please update to the [latest release](https://github.com/Tupig/TuPigGHD2Chinese/releases).
+
+**"The mapping file requires loader version …" / version requirement not met**: the remote mapping targets only the latest loader; please upgrade the loader from [Releases](https://github.com/Tupig/TuPigGHD2Chinese/releases). You can also type `f` at the prompt to force the replacement (not recommended — some entries may not match).
+
+**The program does not run / flashes and exits / `MSVCP140_ATOMIC_WAIT.dll` is missing**: install the **x64** build of the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (`vc_redist.x64.exe`). If it still fails after installing the latest VC++ runtime, check the program folder for leftover files such as `MSVCP140.dll` or `VCRUNTIME140.dll` and delete them.
+
+**GitHub Desktop fails to open after localization**: after updating the loader, run `TuPigGHD2Chinese.exe dev --translationfrombak`.
+
+**Want to undo the localization**: run `TuPigGHD2Chinese.exe --rollback` (restores from `main.js.bak` / `renderer.js.bak`).
+
+**Is macOS / Linux supported?**: per-architecture macOS binaries are provided (Intel: download `macos-x64`; Apple Silicon: `macos-arm64`) along with a Linux x64 build (from the Release page). The mappings target the **Windows** build of GitHub Desktop's UI texts (including Windows-specific content such as `&` access keys); a few entries may not match on other platforms.
+
+**Scripted / automated runs**: add `--nopause` for non-interactive use; note that it is a program-level argument and must come before subcommands such as `dev`.
+
+More topics (proxy not taking effect, `#{n}` placeholders, resumable downloads, `--invalidcheck`, etc.) in [Wiki: FAQ](docs/wiki/常见问题.md).
 
 Suggestions are welcome in [Issues](https://github.com/Tupig/TuPigGHD2Chinese/issues).
 
 Please report security vulnerabilities privately as described in [`SECURITY.md`](SECURITY.md); build provenance of released artifacts can be verified with `gh attestation verify <file> --repo Tupig/TuPigGHD2Chinese`.
 
-## 🎋 Features
+## Features
 
 - [x] JSON file declaring its format version and the minimum loader version
 - [x] Loader program version defined via a macro
@@ -636,7 +624,7 @@ Please report security vulnerabilities privately as described in [`SECURITY.md`]
 - [x] System HTTP proxy support (environment variables + registry)
 - [x] Reads the latest GitHub Desktop version and compares it with the local one
 
-## 📦 Third-party libraries
+## Third-party libraries
 
 Thanks to these excellent open-source projects:
 
@@ -649,14 +637,15 @@ Thanks to these excellent open-source projects:
 | WinReg | Windows registry access | [GiovanniDicanio/WinReg](https://github.com/GiovanniDicanio/WinReg) |
 | OpenSSL | SSL/TLS support | [openssl/openssl](https://github.com/openssl/openssl) |
 
-### ⚖️ Third-party license notices
+### Third-party license notices
 
-Each Release ships [`THIRD_PARTY_NOTICES.txt`](THIRD_PARTY_NOTICES.txt)
-(copyright lines and license terms for all bundled libraries, as required by
-BSD-3-Clause / Apache-2.0 / MIT for binary redistribution). The same file is
-also available in the repository root.
+Each Release ships [`THIRD_PARTY_NOTICES.txt`](THIRD_PARTY_NOTICES.txt) (copyright lines and license terms for all bundled libraries, as required by BSD-3-Clause / Apache-2.0 / MIT for binary redistribution). The same file is also available in the repository root.
 
-## 🏘 Credits
+## Star history
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Tupig/TuPigGHD2Chinese&type=Date)](https://star-history.com/#Tupig/TuPigGHD2Chinese&Date)
+
+## Credits
 
 ![Contributors](https://contrib.rocks/image?repo=Tupig/TuPigGHD2Chinese)
 
